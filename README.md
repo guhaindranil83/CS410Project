@@ -47,9 +47,9 @@
             - Displayed at the top of the bio excerpt
     - Prepopulated email content when a user clicks on a faculty member’s email address (5+ hrs)
         * E.g. 
-            “Dear <Faculty Name>,        
+            “Dear /<Faculty Name/>,        
 
-            It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the <Research Area>.
+            It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the /<Research Area/>.
 
             I hope to hear from you soon.”
 
