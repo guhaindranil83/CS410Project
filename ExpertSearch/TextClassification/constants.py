@@ -10,6 +10,9 @@ ALEXA_TEST_URLS_FILE = './data/original/Alexa_Test.cor'
 TEST_URLS_FILE = './data/test_urls.cor'
 TEST_DATASET_FILE = './data/test_dataset.cor'
 
+CLASSIFIED_DIRECTORY_URLS_FILE = './data/classified_dir_urls.cor'
+CLASSIFIED_FACULTY_URLS_FILE = './data/classified_faculty_urls.cor'
+
 DATA_TYPE_TRAINING = 'training'
 DATA_TYPE_TESTING = 'testing'
 
@@ -19,3 +22,5 @@ TAG_TEST = "test"
 
 MODE_TRAIN_MODEL = 'train'
 MODE_LOAD_MODEL = 'load'
+
+ERROR_CONTENT = 'Error: Content Not Found'

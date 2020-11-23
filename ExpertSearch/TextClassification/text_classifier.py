@@ -45,13 +45,16 @@ class TextClassifier():
             #     yield doc2vec.TaggedDocument(tokens, [i])
 
     def read_train_corpus(self, file_name):
+        train_corpus = []
         with smart_open.open(file_name, encoding='iso-8859-1') as f:
             lines = f.readlines()
             for line in lines:
                 # preprocess each doc
                 tokens = utils.simple_preprocess(line)
                 tag_name = tokens[0]
-                yield doc2vec.TaggedDocument(tokens[1:], [tags_index[tag_name]])
+                # yield doc2vec.TaggedDocument(tokens[1:], [tags_index[tag_name]])
+                train_corpus.append(doc2vec.TaggedDocument(tokens[1:], [tags_index[tag_name]]))
+        return train_corpus
 
     def vector_for_learning(self, model, input_docs):
         tags, feature_vectors = zip(*[(doc.tags[0], model.infer_vector(doc.words, steps=20)) for doc in input_docs])
@@ -62,7 +65,14 @@ class TextClassifier():
             if v == value:
                 return k
 
+    def get_doc_from_corpus(self, doc_idx, corpus_file):
+        with open(corpus_file, 'r') as f:
+            lines = f.readlines()
+            return lines[doc_idx][1:]
+
     def classify_directory_urls(self):
+        open(CLASSIFIED_DIRECTORY_URLS_FILE, 'w').close()
+
         # add new training and test data if _datagen is true
         if self._datagen or not (os.path.exists(TRAIN_DATASET_FILE) or os.path.exists(TEST_DATASET_FILE)):
             data_handler.prepare_data_source()
@@ -70,9 +80,10 @@ class TextClassifier():
             data_handler.prepare_corpus(DATA_TYPE_TESTING)
 
         # read the train corpus
-        train_corpus = list(self.read_train_corpus(TRAIN_DATASET_FILE))
+        # train_corpus = list(self.read_train_corpus(TRAIN_DATASET_FILE))
+        train_corpus = self.read_train_corpus(TRAIN_DATASET_FILE)
         # print a sample of the train corpus
-        pprint.pprint(train_corpus[1:5])
+        # pprint.pprint(train_corpus[1:5])
 
         if self._mode == MODE_LOAD_MODEL and os.path.exists('d2v.model'):
             # load the saved model
@@ -80,7 +91,7 @@ class TextClassifier():
         else:
             # if self._mode == MODE_TRAIN_MODEL or not os.path.exists('d2v.model'):
             # build and train the model
-            model = doc2vec.Doc2Vec(vector_size=100, min_count=2, epochs=40)
+            model = doc2vec.Doc2Vec(vector_size=100, min_count=2, epochs=50)
             model.build_vocab(train_corpus)
             model.train(train_corpus, total_examples=model.corpus_count, epochs=model.epochs)
 
@@ -90,22 +101,38 @@ class TextClassifier():
         # read the test corpus
         test_corpus = list(self.read_test_corpus(TEST_DATASET_FILE))
         # print a sample of the test corpus
-        pprint.pprint(test_corpus[:2])
+        # pprint.pprint(test_corpus[:2])
 
         y_train, X_train = self.vector_for_learning(model, train_corpus)
         y_test, X_test = self.vector_for_learning(model, test_corpus)
-        logreg = LogisticRegression(n_jobs=1, C=1e5)
+        # logreg = LogisticRegression(n_jobs=1, C=1e5)
+        logreg = LogisticRegression(solver='liblinear', n_jobs=1, C=1e5)
         logreg.fit(X_train, y_train)
         y_pred = logreg.predict(X_test)
 
-        # print "y_pred : ", y_pred
-        # print "y_test : ", y_test
-        for i in range(20):
-            with open(TEST_URLS_FILE, 'r') as f:
-                lines = f.readlines()
-                test_url = lines[i]
-                print "Label: ", self.get_key_from_value(tags_index, y_pred[i]), ", URL: ", test_url.strip()
-                    # ", Document: ", test_corpus[i].words
+        # now save all the classified directory urls to the file
+        with open(CLASSIFIED_DIRECTORY_URLS_FILE, 'w') as fo:
+            with open(TEST_URLS_FILE, 'r') as fi:
+                lines = fi.readlines()
+                for i in range(len(lines)):
+                    test_url = lines[i].strip()
+                    label = self.get_key_from_value(tags_index, y_pred[i])
+                    print "Label: ", label, ", URL: ", test_url
+                    if label == TAG_FACULTY and self.get_doc_from_corpus(i, TEST_DATASET_FILE) != ERROR_CONTENT:
+                        fo.write(test_url)
+                        fo.write('\n')
+
+            # also save the training directory urls
+            with open(FACULTY_DIR_TRAIN_URLS_FILE, 'r') as fi:
+                lines = fi.readlines()
+                for i in range(len(lines)):
+                    line = lines[i].strip()
+                    if self.get_doc_from_corpus(i, TRAIN_DATASET_FILE) != ERROR_CONTENT:
+                        line_parts = line.split()
+                        if len(line_parts) > 1:
+                            train_url = line_parts[1]
+                            fo.write(train_url)
+                            fo.write('\n')
 
     def classify_faculty_urls(self):
         pass
@@ -128,3 +155,4 @@ if __name__ == '__main__':
 
     text_classifier = TextClassifier(train_model, datagen)
     text_classifier.classify_directory_urls()
+    text_classifier.classify_faculty_urls()

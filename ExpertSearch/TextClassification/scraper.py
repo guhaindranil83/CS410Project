@@ -92,8 +92,9 @@ class Scraper:
             data_string = data_string.replace('\n', ' ').replace('\r', ' ').replace('\r\n', ' ')
             if re.findall("403 Forbidden", data_string) or \
                     re.findall("404 Component not found", data_string) or \
-                    re.findall("404 Not Found", data_string):
-                data_string = " "
+                    re.findall("404 Not Found", data_string) or \
+                    not data_string:
+                data_string = ERROR_CONTENT
             if self.data_type == DATA_TYPE_TRAINING:
                 data_string = tag + '\t' + data_string
             output_file = self.data_type_url_mappings[self.data_type]["output"]
