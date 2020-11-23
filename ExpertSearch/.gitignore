@@ -1,0 +1,7 @@
+venv/
+azure/
+data/idx
+*.swp
+.vscode/
+cloud-init.txt
+*.pyc
