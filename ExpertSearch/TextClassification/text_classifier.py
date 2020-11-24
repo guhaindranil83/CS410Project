@@ -199,10 +199,9 @@ class TextClassifier:
         logreg.fit(X_train, y_train)
         y_pred = logreg.predict(X_test)
 
-        # TODO: Test code to remove
+        # tagged file just for reference
         open('./data/test_bio_urls_tagged.cor', 'w').close()
 
-        # TODO: Test code to remove
         with open('./data/test_bio_urls_tagged.cor', 'w') as f2:
             # now save all the classified directory urls to the file
             with open(CLASSIFIED_FACULTY_URLS_FILE, 'w') as fo:
@@ -217,7 +216,7 @@ class TextClassifier:
                             fo.write(test_url)
                             fo.write('\n')
 
-                        # TODO: Test code to remove
+                        # also update the tagged file with the final tags
                         f2.write(label + '\t' + test_url)
                         f2.write('\n')
 
