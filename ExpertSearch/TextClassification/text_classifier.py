@@ -1,4 +1,3 @@
-import argparse
 import smart_open
 from gensim.models import doc2vec
 from gensim import utils
@@ -19,11 +18,6 @@ tags_bio_index = {
     TAG_FACULTY: 1,
     TAG_ALEXA_OTHER: 2
 }
-
-
-def add_parser_arguments(parser):
-    parser.add_argument('-d', '--datagen', action='store_true', help='Add new training and test data')
-    parser.add_argument('-t', '--train', action='store_true', help='Train model before classify task')
 
 
 class TextClassifier:
@@ -51,11 +45,6 @@ class TextClassifier:
                 # yield doc2vec.TaggedDocument(tokens[1:], [tags_index[TAG_TEST_DIR]])
                 tag_index = [self._tags_dict[tag_name]]
                 yield doc2vec.TaggedDocument(tokens[1:], tag_index)
-
-            # for i, line in enumerate(f):
-            #     # preprocess each doc
-            #     tokens = utils.simple_preprocess(line)
-            #     yield doc2vec.TaggedDocument(tokens, [i])
 
     def read_train_corpus(self, file_name):
         train_corpus = []
@@ -90,13 +79,8 @@ class TextClassifier:
         Train a model with training dataset from known Faculty Directory URLs and non-faculty URLs.
         Classify Faculty Directory URLs from the test dataset using the trained model.
         """
+
         # open(CLASSIFIED_DIRECTORY_URLS_FILE, 'w').close()
-        #
-        # # add new training and test data if _datagen is true
-        # if self._datagen or not (os.path.exists(TRAIN_DATASET_FILE) or os.path.exists(TEST_DATASET_FILE)):
-        #     data_handler.prepare_data_source()
-        #     data_handler.prepare_corpus(DATA_TYPE_TRAINING)
-        #     data_handler.prepare_corpus(DATA_TYPE_TESTING)
 
         # read the train corpus
         # train_corpus = list(self.read_train_corpus(TRAIN_DATASET_FILE))
@@ -155,19 +139,11 @@ class TextClassifier:
                             fo.write('\n')
 
     def classify_faculty_urls(self):
+        """
+        Train a model with training dataset from known Faculty URLs and non-faculty URLs.
+        Classify faculty homepages from the test dataset using the trained model.
+        """
         # open(CLASSIFIED_FACULTY_URLS_FILE, 'w').close()
-
-        # 1. Scrape each directory url from the classified urls
-        # 2. Find all urls in the directory page
-        # 3. Partition the urls into train and test
-        # 4. Label the faculty pages in the train dataset as 'homepage', label the other pages as 'other'
-        # 5. Train a model to classify faculty pages
-        # 6. Classify the test urls
-        # 7. Save them to a file for classified faculty pages
-        # 8. At the same time, extract the corresponding bios via the scraper
-        # 9. Read all the compiled bios into memory
-        # 10. Check if the newly identified bios have any duplicate and remove if any
-        # 11. Save the remaining unique bios to separate bio files like before
 
         # read the train corpus
         # train_corpus = list(self.read_train_corpus(TRAIN_DATASET_FILE))
@@ -219,24 +195,3 @@ class TextClassifier:
                         # also update the tagged file with the final tags
                         f2.write(label + '\t' + test_url)
                         f2.write('\n')
-
-
-
-if __name__ == '__main__':
-    # Run it as:
-    #
-    # To add new train/test data and train the model
-    # python ./text_classifier.py -t -d
-    #
-    # For subsequent runs to do only classification
-    # python ./text_classifier.py
-
-    arg_parser = argparse.ArgumentParser()
-    add_parser_arguments(arg_parser)
-    args = arg_parser.parse_args()
-    gen_data = args.datagen if args.datagen else False
-    train_model = args.train if args.train else False
-
-    text_classifier = TextClassifier(TASK_DIRECTORY_CLASSIFICATION, train_model, gen_data)
-    text_classifier.classify_directory_urls()
-    text_classifier.classify_faculty_urls()

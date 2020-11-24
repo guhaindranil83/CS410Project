@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 from constants import *
 import requests
 import re
-import urllib2
 from urlparse import urlsplit
-from flask import request
 
 
 class Scraper:
@@ -150,8 +148,6 @@ class Scraper:
 
     def get_links_from_url(self, url):
         print '-' * 5, 'Scraping url : ', url, '-' * 5
-        # html_page = urllib2.urlopen(url)
-        # soup = self.get_js_soup(html_page)
         soup = self.get_js_soup(url)
         # soup = self.remove_script(soup)
         if not soup:
@@ -207,13 +203,7 @@ class Scraper:
     def is_valid_homepage(self, bio_url, dir_url):
         if bio_url.endswith('.pdf'):
             return False
-        # try:
-        #     ret_url = request.urlopen(bio_url).geturl()
-        # except Exception as e:
-        #     print("Exception occurred in is_valid_homepage - ", str(e))
-        #     return False
         urls = [re.sub('((http?://) | (www.))', '', url) for url in [bio_url, dir_url]]
-        # print("urls[0] :", urls[0], " urls[1] :", urls[1])
         return not (urls[0] == urls[1])
 
     def scrape_faculty_pages_for_bio(self):
@@ -225,7 +215,6 @@ class Scraper:
             for i, line in enumerate(lines):
                 faculty_url = line.strip()
                 print "Scraping faculty url {} for bio ...".format(faculty_url)
-                # bio = "sample: replace with actual code"
                 bio = self.extract_bio(faculty_url)
                 new_bio_file_name = str(LAST_KNOWN_BIO_INDEX + i) + '.txt'
                 new_bio_file = os.path.join(os.path.dirname(this_file_dir), 'data/compiled_bios', new_bio_file_name)

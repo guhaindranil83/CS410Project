@@ -181,6 +181,7 @@ class DataHandler:
                     fo.write('\n')
 
         with open(TRAIN_BIO_URLS_FILE, 'a') as fo:
+            # NOTE: Might be helpful to use known directory urls as the 'negative' example
             alexa_test_files = ['./data/original/Alexa_Top_50_Australia.cor', './data/original/Alexa_Top_50_Uganda.cor',
                                 './data/original/Alexa_Top_50_Jamaica.cor', './data/original/Alexa_Top_50_Nigeria.cor',
                                 './data/original/Alexa_Top_50_TrinTob.cor'
