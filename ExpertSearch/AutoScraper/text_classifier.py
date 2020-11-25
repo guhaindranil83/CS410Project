@@ -126,17 +126,17 @@ class TextClassifier:
                         fo.write(test_url)
                         fo.write('\n')
 
-            # also save the training directory urls
-            with open(FACULTY_DIR_TRAIN_URLS_FILE, 'r') as fi:
-                lines = fi.readlines()
-                for i in range(len(lines)):
-                    line = lines[i].strip()
-                    if self.get_doc_from_corpus(i, TRAIN_DATASET_FILE) != ERROR_CONTENT:
-                        line_parts = line.split()
-                        if len(line_parts) > 1:
-                            train_url = line_parts[1]
-                            fo.write(train_url)
-                            fo.write('\n')
+            # # also save the training directory urls
+            # with open(FACULTY_DIR_TRAIN_URLS_FILE, 'r') as fi:
+            #     lines = fi.readlines()
+            #     for i in range(len(lines)):
+            #         line = lines[i].strip()
+            #         if self.get_doc_from_corpus(i, TRAIN_DATASET_FILE) != ERROR_CONTENT:
+            #             line_parts = line.split()
+            #             if len(line_parts) > 1:
+            #                 train_url = line_parts[1]
+            #                 fo.write(train_url)
+            #                 fo.write('\n')
 
     def classify_faculty_urls(self):
         """
