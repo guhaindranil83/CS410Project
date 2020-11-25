@@ -1,7 +1,7 @@
 import shutil
 from scraper import *
 
-BIO_URLS_SPLIT_POINT = 500
+BIO_URLS_SPLIT_POINT = 1000
 ALEXA_BIO_URLS_SAMPLE_SIZE = 20
 
 class DataHandler:
@@ -198,21 +198,6 @@ class DataHandler:
                     fo.write(TAG_ALEXA_OTHER + '\t' + url)
                     fo.write('\n')
 
-        # with open(TRAIN_BIO_URLS_FILE, 'a') as fo:
-        #     # with open(ALEXA_TRAIN_URLS_FILE, 'r') as fi:
-        #     with open('./data/original/Alexa_Top_50.cor', 'r') as fi:
-        #         lines = fi.readlines()
-        #         for i in range(ALEXA_BIO_URLS_SAMPLE_SIZE):
-        #             alexa_train_url = lines[i].strip()
-        #             scraper = Scraper(DATA_TYPE_BIO_TRAINING)
-        #             alexa_sub_urls = scraper.get_links_from_url(alexa_train_url)
-        #             # for i in range(len(alexa_sub_urls)):
-        #             for j, alexa_sub_url in enumerate(alexa_sub_urls):
-        #                 if j < ALEXA_BIO_URLS_SAMPLE_SIZE and not self.is_non_ascii(alexa_sub_url):
-        #                     # fo.write(TAG_ALEXA_OTHER + '\t' + alexa_sub_urls[i].strip())
-        #                     fo.write(TAG_ALEXA_OTHER + '\t' + alexa_sub_url.strip())
-        #                     fo.write('\n')
-
     def prepare_train_bio_corpus(self):
         """
         Prepare the bio corpus for training the bio classifier
@@ -246,7 +231,7 @@ class DataHandler:
             open(TEST_BIO_URLS_FILE, 'w').close()
 
         with open(TEST_BIO_URLS_FILE, 'w') as fo:
-            with open(TEST_URLS_FILE, 'r') as fi:
+            with open(CLASSIFIED_DIRECTORY_URLS_FILE, 'r') as fi:
                 lines = fi.readlines()
                 # for i in range(20):
                 for i, line in enumerate(lines):
