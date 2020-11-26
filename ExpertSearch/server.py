@@ -7,6 +7,24 @@ import requests
 import base64
 import sys
 import re
+from sklearn import datasets
+from sklearn.datasets import fetch_20newsgroups
+from gensim import models
+import pandas as pd 
+import gensim 
+from gensim.models.ldamulticore import LdaMulticore 
+from gensim import corpora, models 
+# import pyLDAvis.genism 
+
+#from nltk.corpus import stopwords 
+import string
+#from nltk.stem.wordnet import WordNetLemmatizer
+
+import warnings 
+warnings.simplefilter('ignore') 
+from itertools import chain 
+
+
 
 
 app = Flask(__name__) 
@@ -66,6 +84,7 @@ def search():
 
     query = metapy.index.Document()
     query.content(querytext)
+    print(querytext) 
     min_score = 0.01
 
     # Dynamically load the ranker
@@ -86,10 +105,11 @@ def search():
    
 
     previews = _get_doc_previews(doc_names,querytext)
+    full_previews = list(map(lambda d: _get_topics(d,querytext), doc_names))
+    #topics = clean(full_previews)
     emails = [index.metadata(res[0]).get('email') for res in results]
 
-
-    docs = list(zip(doc_names, previews, emails,universities,depts,fac_names,fac_urls,states,countries))
+    docs = list(zip(doc_names, previews, emails,universities,depts,fac_names,fac_urls,states,countries, full_previews))
 
     return jsonify({
         "docs": docs
@@ -126,12 +146,65 @@ def set_ranker():
 
     return "200"
 
+def clean(text): 
+    stop = set(stopwords.words('english'))
+    exclude = set(string.punctuation)
+    lemma = WordNetLemmatizer
+
+    stop_free = ' '.join([word for word in text.lower().split() if word not in stop])
+    punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
+    normalized = ' '.join([lemma.lemmatize(word) for word in punc_free.split()])
+
+    return normalized.split() 
+
+
+def lemmatize_stemming(text):
+    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+# Tokenize and lemmatize
+def preprocess(text):
+    result=[]
+    for token in gensim.utils.simple_preprocess(text) :
+        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
+            result.append(lemmatize_stemming(token))
+            
+    return result
+
 def _get_doc_previews(doc_names,querytext):
     return list(map(lambda d: _get_preview(d,querytext), doc_names))
 
 def format_string(matchobj):
     
     return '<b>'+matchobj.group(0)+'</b>'
+
+def _get_topics(doc_name, querytext) : 
+
+    preview = ""
+    num_lines = 0
+    preview_length = 2
+    fullpath = app.datasetpath + "/" + doc_name
+
+    with open(fullpath, 'r') as fp:
+        while num_lines < preview_length:
+            line = fp.readline()
+            found_phrase = False
+            if not line:
+                break
+            formatted_line = str(line.lower())
+            for w in querytext.lower().split():
+
+                (sub_str,cnt) = re.subn(re.compile(r"\b{}\b".format(w)),format_string,formatted_line)
+
+                if cnt>0:
+                    formatted_line = sub_str
+                    found_phrase = True 
+
+            if found_phrase:
+                preview += formatted_line
+
+                num_lines += 1
+        fp.close()
+    return preview  
+
 
 def _get_preview(doc_name,querytext):
     preview = ""
@@ -159,7 +232,7 @@ def _get_preview(doc_name,querytext):
 
                 num_lines += 1
         fp.close()
- 
+    print(preview) 
     short_preview = ''
     prev_i = 0
     start = 0
