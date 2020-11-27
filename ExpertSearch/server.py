@@ -7,6 +7,7 @@ import requests
 import base64
 import sys
 import re
+'''
 from sklearn import datasets
 from sklearn.datasets import fetch_20newsgroups
 from gensim import models
@@ -23,8 +24,7 @@ import string
 import warnings 
 warnings.simplefilter('ignore') 
 from itertools import chain 
-
-
+'''
 
 
 app = Flask(__name__) 
@@ -145,29 +145,6 @@ def set_ranker():
         f.close()
 
     return "200"
-
-def clean(text): 
-    stop = set(stopwords.words('english'))
-    exclude = set(string.punctuation)
-    lemma = WordNetLemmatizer
-
-    stop_free = ' '.join([word for word in text.lower().split() if word not in stop])
-    punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
-    normalized = ' '.join([lemma.lemmatize(word) for word in punc_free.split()])
-
-    return normalized.split() 
-
-
-def lemmatize_stemming(text):
-    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
-# Tokenize and lemmatize
-def preprocess(text):
-    result=[]
-    for token in gensim.utils.simple_preprocess(text) :
-        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
-            result.append(lemmatize_stemming(token))
-            
-    return result
 
 def _get_doc_previews(doc_names,querytext):
     return list(map(lambda d: _get_preview(d,querytext), doc_names))
