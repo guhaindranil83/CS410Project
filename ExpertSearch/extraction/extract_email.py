@@ -2,18 +2,6 @@ import os,codecs,re
 
 def main(dir_,out_path):
 	emails = []
-	print(len(os.listdir(dir_)))  
-
-	for i in range(0,6524):
-		content = codecs.open(os.path.join(dir_,str(i)+'.txt'), 'r',encoding='utf-8',errors='ignore').readlines()
-		for line in content:
-			match = re.findal(r'[\w\.-]+@[\w\.-]+', line)
-			if len(match) > 0:
-				print(match[0].lower().strip())
-			else:
-				emails.append('')
-	
-	'''
 	for i in range(len(os.listdir(dir_))-1):
 		content = codecs.open(os.path.join(dir_,str(i)+'.txt'), 'r',encoding='utf-8',errors='ignore').readlines()
 		for line in content:
@@ -30,7 +18,7 @@ def main(dir_,out_path):
 			f.write('\n')
 		else:
 			f.write(emails[-1])
-	''' 
+			
 if __name__ == '__main__':
 	main('../data/compiled_bios/','../data/emails_1')
 
