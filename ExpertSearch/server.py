@@ -213,7 +213,7 @@ def _get_preview(doc_name,querytext):
 
                 num_lines += 1
         fp.close()
-    print(preview) 
+    #print(preview)
     short_preview = ''
     prev_i = 0
     start = 0
