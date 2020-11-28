@@ -15,6 +15,7 @@ def get_top_words_from_query_topic(query):
     current_dir = os.getcwd()
     
     model = load_topic_model(current_dir + TOPIC_MODEL_FILE)
+    model.prefix = current_dir + '/data/expertsearch/model_files/'
     corpus_dictionary = load_dictionary(current_dir + CORPUS_DICTIONARY_FILE)
 
     split_query = query.split(' ')
