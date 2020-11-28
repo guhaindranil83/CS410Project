@@ -72,6 +72,10 @@ def search():
     sys.path.append(app.rootpath + "/expertsearch")
 
     from ranker import load_ranker
+    from miner import get_top_words_from_query_topic
+
+    top_terms = get_top_words_from_query_topic(querytext)
+    print([term for term in top_terms])
 
     ranker = load_ranker(app.searchconfig)
 
