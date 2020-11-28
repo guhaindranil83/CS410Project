@@ -250,3 +250,8 @@ filter
 variable
 taken
 directly
+spring
+fall
+summer
+winter
+based
