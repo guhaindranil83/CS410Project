@@ -5,8 +5,9 @@ var incResults = 5;
 var selected_loc_filters = []
 var selected_uni_filters = []
 var searchTerm = ''
-
-
+let tableVisible = false; 
+let globalDoc = []; 
+window.showTable = showTable; 
 
 var docDiv = (doc) => {
     const name = doc[0];
@@ -16,8 +17,16 @@ var docDiv = (doc) => {
     const fac_name = doc[5]
     const fac_url = doc[6]
     const loc = doc[7]+', '+doc[8]
+    const queryText = doc[9] 
+
+    globalDoc.push(doc); 
+    let docNum = globalDoc.indexOf(doc) + 1; 
+    let divNum  = "div" + docNum; 
+    let infoNum = "info" + docNum; 
+    console.log(docNum); 
 
 
+    console.log(uni_dept);
 
     if (email =='None') {
         return (
@@ -27,6 +36,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
+                 <a style="color:black;margin-left:auto;" onclick='showTable(this.id)' id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="margin-left:auto;color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
 
@@ -47,6 +57,8 @@ var docDiv = (doc) => {
                 <span id='docPrev-${name}'>${prev}</span>
                 <br>
             </div>
+            </div>
+            <div style="margin-top:20px" id=${divNum}> 
             </div>`
         );
     } else {
@@ -58,6 +70,7 @@ var docDiv = (doc) => {
         
                  <b style="font-size:14pt">${fac_name}</b>
                  <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}' "><i class="material-icons">email</i></a>
+                 <a style="auto;color:black;margin-right:20px;" onclick="showTable(this.id)" id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
 
@@ -78,8 +91,67 @@ var docDiv = (doc) => {
                 <span id='docPrev-${name}'>${prev}</span>
                 <br>
             </div>
+            </div> 
+            
+            <div style="margin-top:20px" id=${divNum}> 
             </div>`
         );
+    }
+}
+
+var showTable = function(clicked_id) {
+
+    let id = parseInt(clicked_id.replace ( /[^\d.]/g, '' ));
+    let doc = globalDoc[id-1]; 
+    let email = doc[2];
+    let uni_dept = doc[4]+', '+doc[3]
+    let fac_name = doc[5];
+    let div = "div" + id; 
+
+    if(tableVisible == false) { 
+        tableVisible = true; 
+    } else {
+        tableVisible = false; 
+    }
+
+    if(tableVisible == true) {  
+        var table = document.createElement("div");
+        var c, r, t;
+        t = document.createElement('table');
+        t.setAttribute("id", "myTable");
+        r = t.insertRow(0); 
+        c = r.insertCell(0);
+        c.innerHTML = "First Name";
+        c = r.insertCell(1);
+        c.innerHTML = "Last Name";
+        c = r.insertCell(2);
+        c.innerHTML = "Department";
+        c = r.insertCell(3);
+        c.innerHTML = "Research Area";
+        c = r.insertCell(4);
+        c.innerHTML = "Email";
+        
+        r = t.insertRow(1);
+        c = r.insertCell(0);
+        c.innerHTML = fac_name;
+        c = r.insertCell(1);
+        c.innerHTML = fac_name;
+        c = r.insertCell(2);
+        c.innerHTML = uni_dept;
+        c = r.insertCell(3);
+        c.innerHTML = uni_dept;
+        c = r.insertCell(4);
+        c.innerHTML = email;
+
+
+        // var node = document.createTextNode("This is new.");
+        table.appendChild(t);
+        var element = document.getElementById(div);
+        element.appendChild(table);
+    } else {
+        let item = document.getElementById("myTable"); 
+        item.parentNode.removeChild(item);
+ 
     }
 }
 

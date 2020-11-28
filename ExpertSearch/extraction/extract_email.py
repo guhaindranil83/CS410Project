@@ -14,13 +14,13 @@ def main(dir_,out_path):
 	with codecs.open(out_path,'w',encoding='utf-8',errors='ignore') as f:
 		for email in emails[:-1]:
 			f.write(email+'\n')
-		if emails[-1]==''
+		if emails[-1]=='':
 			f.write('\n')
 		else:
 			f.write(emails[-1])
-
+			
 if __name__ == '__main__':
-	main('../data/compiled_bios/','../data/emails')
+	main('../data/compiled_bios/','../data/emails_1')
 
 
 	   
