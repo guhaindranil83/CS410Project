@@ -1,6 +1,6 @@
-index = "/Users/AaronGreen/Desktop/CS410/expertsearch/data/idx/FacultyDataset-idx"
-query-judgements = "/Users/AaronGreen/Desktop/CS410/expertsearch/data/FacultyDataset/FacultyDataset-qrels.txt"
-prefix = "/Users/AaronGreen/Desktop/CS410/expertsearch/data"
+index = "../../FacultyDataset-idx/"
+query-judgements = "../FacultyDataset/FacultyDataset-qrels.txt"
+prefix = "../"
 corpus = "file.toml"
 dataset = "FacultyDataset"
 
