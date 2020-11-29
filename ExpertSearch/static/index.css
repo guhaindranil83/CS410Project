@@ -199,3 +199,7 @@ td, th {
   text-align: left;
   padding: 8px;
 }
+
+#myTable caption {
+  caption-side: top; 
+}

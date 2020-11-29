@@ -108,13 +108,13 @@ def search():
     # Example of get_topics_from_many_documents
     topics = get_topics_from_many_documents(doc_names)
     print('Multiple docs topics:')
-    for topic in topics:
-        print(topic)
+    #for topic in topics:
+    #    print(topic)
 
     # Example of get_topics_from_single_document
     single_topics = get_topic_from_single_document(doc_names[0])
     print('Single doc topics: ')
-    print(single_topics)
+    #print(single_topics)
 
 
 
@@ -130,7 +130,7 @@ def search():
     #topics = clean(full_previews)
     emails = [index.metadata(res[0]).get('email') for res in results]
 
-    docs = list(zip(doc_names, previews, emails,universities,depts,fac_names,fac_urls,states,countries, full_previews))
+    docs = list(zip(doc_names, previews, emails,universities,depts,fac_names,fac_urls,states,countries, full_previews, topics))
 
     return jsonify({
         "docs": docs
