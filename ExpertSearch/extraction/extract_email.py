@@ -6,8 +6,21 @@ def main(dir_,out_path):
 		content = codecs.open(os.path.join(dir_,str(i)+'.txt'), 'r',encoding='utf-8',errors='ignore').readlines()
 		for line in content:
 			match = re.findall(r'[\w\.-]+@[\w\.-]+', line)
+			match2 = re.findall(r'([\w\.-]+\[+@+]+[\w\.-]+\[+DOT+]+[\w\.-]+)', line)
+			match3 = re.findall(r'([\w\.-]+( dot)+[ \w\.-]+)', line) 
+
 			if len(match) > 0:
 				emails.append(match[0].lower().strip())
+			else:
+				emails.append('')
+
+			if len(match2) > 0:
+				emails.append(match2[0].lower().strip())
+			else:
+				emails.append('')
+
+			if len(match3) > 0:
+				emails.append(match3[0].lower().strip())
 			else:
 				emails.append('')
 

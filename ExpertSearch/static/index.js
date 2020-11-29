@@ -160,7 +160,6 @@ var showTable = function(clicked_id) {
         c = r.insertCell(0);
         c.innerHTML = top5topics[0];
         addLearnMore(c, top5topics[0]); 
-        //c.innerHTML += "</br>" + "<a  target='_blank' href='"+"https://en.wikipedia.org/wiki/"+ top5topics[0].split(" ")[0] + "_" + top5topics[0].split(" ")[1] +"'>Learn More</a>";
         c = r.insertCell(1);
         c.innerHTML = top5topics[1];        
         addLearnMore(c, top5topics[1]); 
