@@ -20,7 +20,9 @@ var docDiv = (doc) => {
     const queryText = doc[9] 
     const topics = doc[10]
 
-
+    let randomNum = getRandomInt(5); 
+    console.log(randomNum); 
+    console.log(topics[randomNum]); 
     console.log(topics); 
     globalDoc.push(doc); 
     let docNum = globalDoc.indexOf(doc) + 1; 
@@ -72,7 +74,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}' "><i class="material-icons">email</i></a>
+                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum]}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
                  <a style="auto;color:black;margin-right:20px;" onclick="showTable(this.id)" id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
@@ -102,6 +104,10 @@ var docDiv = (doc) => {
     }
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 var showTable = function(clicked_id) {
 
     let id = parseInt(clicked_id.replace ( /[^\d.]/g, '' ));
@@ -113,7 +119,6 @@ var showTable = function(clicked_id) {
     let div = "div" + id; 
 
     let top5topics = []; 
-    let topo5topicsdefn = []; 
     for(let i = 0; i < 5; i++) {
         let splitStr = topics[i].toLowerCase().split(' ');
         let myTopic = ""; 
@@ -124,10 +129,6 @@ var showTable = function(clicked_id) {
         for(var x = 0; x < splitStr.length; x++) {
             myTopic += splitStr[x] + " "; 
         } 
-
-        fetch(dictionaryURl)
-        .then(response => response.json())
-        .then(data => console.log(data.shortdef));
 
         top5topics[i] = myTopic; 
     }
