@@ -91,18 +91,35 @@ def search():
     sys.path.append(app.rootpath + "/expertsearch")
 
     from ranker import load_ranker
-    from miner import get_top_words_from_query_topic
+    from miner import get_top_words_from_query_topic, get_topics_from_many_documents, get_topic_from_single_document
 
-    top_terms = get_top_words_from_query_topic(querytext)
-    print([term for term in top_terms])
+    #top_terms = get_top_words_from_query_topic(querytext)
+    #print([term for term in top_terms])
 
     ranker = load_ranker(app.searchconfig)
 
     results = ranker.score(index, query, 100) 
 
+
     results,universities,states,countries = filtered_results(results,num_results,min_score,selected_uni_filters,selected_loc_filters)
 
     doc_names = [index.metadata(res[0]).get('doc_name') for res in results]
+
+    # Example of get_topics_from_many_documents
+    topics = get_topics_from_many_documents(doc_names)
+    print('Multiple docs topics:')
+    for topic in topics:
+        print(topic)
+
+    # Example of get_topics_from_single_document
+    single_topics = get_topic_from_single_document(doc_names[0])
+    print('Single doc topics: ')
+    print(single_topics)
+
+
+
+
+
     depts = [index.metadata(res[0]).get('department') for res in results]
     fac_names = [index.metadata(res[0]).get('fac_name') for res in results]
     fac_urls = [index.metadata(res[0]).get('fac_url') for res in results]
