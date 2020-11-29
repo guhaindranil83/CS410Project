@@ -27,8 +27,7 @@ def get_topic_from_single_document(doc_name):
 
     doc = list(iter_documents(current_dir + BIOS_FILE, doc_name).next())
     corpus_dictionary = load_dictionary(current_dir + CORPUS_DICTIONARY_FILE)
-    model = load_topic_model(current_dir + TOPIC_MODEL_FILE)
-    model.prefix = current_dir + MODEL_FILES
+    model = get_model()
 
     topic_num = max(model[corpus_dictionary.doc2bow(doc)], key=lambda x: x[1])[0]
 
@@ -38,8 +37,7 @@ def get_topic_from_single_document(doc_name):
 def get_top_words_from_query_topic(query):
     current_dir = os.getcwd()
     
-    model = load_topic_model(current_dir + TOPIC_MODEL_FILE)
-    model.prefix = current_dir + MODEL_FILES
+    model = get_model()
     corpus_dictionary = load_dictionary(current_dir + CORPUS_DICTIONARY_FILE)
 
     split_query = query.split(' ')
@@ -65,6 +63,11 @@ def iter_documents(top_directory, doc_name):
 
             yield document
 
+def get_model():
+    current_dir = os.getcwd()
+    model = load_topic_model(current_dir + TOPIC_MODEL_FILE)
+    model.prefix = current_dir + MODEL_FILES
+    return model
 
 def load_topic_model(file_name):
     try :
