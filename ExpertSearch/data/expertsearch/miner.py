@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 TOPIC_MODEL_FILE = '/data/expertsearch/lda_mallet_model'
 CORPUS_DICTIONARY_FILE = '/data/expertsearch/corpus_dictionary'
 BIOS_FILE = '/data/compiled_bios'
+MODEL_FILES = '/data/expertsearch/model_files/'
 
 def get_topics_from_many_documents(doc_names):
 
@@ -27,6 +28,7 @@ def get_topic_from_single_document(doc_name):
     doc = list(iter_documents(current_dir + BIOS_FILE, doc_name).next())
     corpus_dictionary = load_dictionary(current_dir + CORPUS_DICTIONARY_FILE)
     model = load_topic_model(current_dir + TOPIC_MODEL_FILE)
+    model.prefix = current_dir + MODEL_FILES
 
     topic_num = max(model[corpus_dictionary.doc2bow(doc)], key=lambda x: x[1])[0]
 
@@ -37,7 +39,7 @@ def get_top_words_from_query_topic(query):
     current_dir = os.getcwd()
     
     model = load_topic_model(current_dir + TOPIC_MODEL_FILE)
-    model.prefix = current_dir + '/data/expertsearch/model_files/'
+    model.prefix = current_dir + MODEL_FILES
     corpus_dictionary = load_dictionary(current_dir + CORPUS_DICTIONARY_FILE)
 
     split_query = query.split(' ')
