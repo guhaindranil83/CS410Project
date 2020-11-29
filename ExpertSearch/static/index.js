@@ -18,7 +18,12 @@ var docDiv = (doc) => {
     const fac_url = doc[6]
     const loc = doc[7]+', '+doc[8]
     const queryText = doc[9] 
+    const topics = doc[10]
 
+    let randomNum = getRandomInt(5); 
+    console.log(randomNum); 
+    console.log(topics[randomNum]); 
+    console.log(topics); 
     globalDoc.push(doc); 
     let docNum = globalDoc.indexOf(doc) + 1; 
     let divNum  = "div" + docNum; 
@@ -69,7 +74,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}' "><i class="material-icons">email</i></a>
+                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum]}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
                  <a style="auto;color:black;margin-right:20px;" onclick="showTable(this.id)" id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
@@ -99,6 +104,10 @@ var docDiv = (doc) => {
     }
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 var showTable = function(clicked_id) {
 
     let id = parseInt(clicked_id.replace ( /[^\d.]/g, '' ));
@@ -106,7 +115,23 @@ var showTable = function(clicked_id) {
     let email = doc[2];
     let uni_dept = doc[4]+', '+doc[3]
     let fac_name = doc[5];
+    let topics = doc[10]; 
     let div = "div" + id; 
+
+    let top5topics = []; 
+    for(let i = 0; i < 5; i++) {
+        let splitStr = topics[i].toLowerCase().split(' ');
+        let myTopic = ""; 
+        for (var x = 0; x < splitStr.length; x++) {
+            splitStr[x] = splitStr[x].charAt(0).toUpperCase() + splitStr[x].substring(1);     
+        }
+
+        for(var x = 0; x < splitStr.length; x++) {
+            myTopic += splitStr[x] + " "; 
+        } 
+
+        top5topics[i] = myTopic; 
+    }
 
     if(tableVisible == false) { 
         tableVisible = true; 
@@ -121,38 +146,60 @@ var showTable = function(clicked_id) {
         t.setAttribute("id", "myTable");
         r = t.insertRow(0); 
         c = r.insertCell(0);
-        c.innerHTML = "First Name";
+        c.innerHTML = "Topic 1";
         c = r.insertCell(1);
-        c.innerHTML = "Last Name";
+        c.innerHTML = "Topic 2";
         c = r.insertCell(2);
-        c.innerHTML = "Department";
+        c.innerHTML = "Topic 3";
         c = r.insertCell(3);
-        c.innerHTML = "Research Area";
+        c.innerHTML = "Topic 4";
         c = r.insertCell(4);
-        c.innerHTML = "Email";
+        c.innerHTML = "Topic 5";
         
         r = t.insertRow(1);
         c = r.insertCell(0);
-        c.innerHTML = fac_name;
+        c.innerHTML = top5topics[0];
+        addLearnMore(c, top5topics[0]); 
         c = r.insertCell(1);
-        c.innerHTML = fac_name;
+        c.innerHTML = top5topics[1];        
+        addLearnMore(c, top5topics[1]); 
         c = r.insertCell(2);
-        c.innerHTML = uni_dept;
+        c.innerHTML = top5topics[2];
+        addLearnMore(c, top5topics[2]); 
         c = r.insertCell(3);
-        c.innerHTML = uni_dept;
+        c.innerHTML = top5topics[3];
+        addLearnMore(c, top5topics[3]); 
         c = r.insertCell(4);
-        c.innerHTML = email;
+        c.innerHTML = top5topics[4];
+        addLearnMore(c, top5topics[4]); 
 
 
         // var node = document.createTextNode("This is new.");
         table.appendChild(t);
         var element = document.getElementById(div);
         element.appendChild(table);
+
+        var table = document.getElementById("myTable").createCaption();
+        table.innerHTML = "<b>Research Topics</b>";
+
+
     } else {
         let item = document.getElementById("myTable"); 
         item.parentNode.removeChild(item);
  
     }
+}
+
+var addLearnMore = function(c, topics) {
+
+    var topicSplit  = topics.split(" "); 
+    if (topicSplit[1] != null) {
+        c.innerHTML += "</br>" + "<a  target='_blank' href='"+"https://en.wikipedia.org/wiki/"+ topicSplit[0] + "_" + topicSplit[1] +"'>Learn More</a>";
+    } else {
+        c.innerHTML += "</br>" + "<a  target='_blank' href='"+"https://en.wikipedia.org/wiki/"+ topicSplit[0] +"'>Learn More</a>";
+    }
+
+
 }
 
 var doSearch = function() {

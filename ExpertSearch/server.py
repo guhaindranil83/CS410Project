@@ -91,14 +91,35 @@ def search():
     sys.path.append(app.rootpath + "/expertsearch")
 
     from ranker import load_ranker
+    from miner import get_top_words_from_query_topic, get_topics_from_many_documents, get_topic_from_single_document
+
+    #top_terms = get_top_words_from_query_topic(querytext)
+    #print([term for term in top_terms])
 
     ranker = load_ranker(app.searchconfig)
 
     results = ranker.score(index, query, 100) 
 
+
     results,universities,states,countries = filtered_results(results,num_results,min_score,selected_uni_filters,selected_loc_filters)
 
     doc_names = [index.metadata(res[0]).get('doc_name') for res in results]
+
+    # Example of get_topics_from_many_documents
+    topics = get_topics_from_many_documents(doc_names)
+    print('Multiple docs topics:')
+    #for topic in topics:
+    #    print(topic)
+
+    # Example of get_topics_from_single_document
+    single_topics = get_topic_from_single_document(doc_names[0])
+    print('Single doc topics: ')
+    #print(single_topics)
+
+
+
+
+
     depts = [index.metadata(res[0]).get('department') for res in results]
     fac_names = [index.metadata(res[0]).get('fac_name') for res in results]
     fac_urls = [index.metadata(res[0]).get('fac_url') for res in results]
@@ -109,7 +130,7 @@ def search():
     #topics = clean(full_previews)
     emails = [index.metadata(res[0]).get('email') for res in results]
 
-    docs = list(zip(doc_names, previews, emails,universities,depts,fac_names,fac_urls,states,countries, full_previews))
+    docs = list(zip(doc_names, previews, emails,universities,depts,fac_names,fac_urls,states,countries, full_previews, topics))
 
     return jsonify({
         "docs": docs
@@ -209,7 +230,7 @@ def _get_preview(doc_name,querytext):
 
                 num_lines += 1
         fp.close()
-    print(preview) 
+    #print(preview)
     short_preview = ''
     prev_i = 0
     start = 0
@@ -250,3 +271,4 @@ if __name__ == '__main__':
     app.searchconfig = dataconfig[environ]['searchconfig']
 
     app.run(debug=True,threaded=True,host='localhost',port=8095)
+
