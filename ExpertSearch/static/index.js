@@ -74,7 +74,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum]}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
+                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=Dear Professor ${fac_name.split(" ")[1]}, \r\n It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum]}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
                  <a style="auto;color:black;margin-right:20px;" onclick="showTable(this.id)" id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
@@ -160,18 +160,27 @@ var showTable = function(clicked_id) {
         c = r.insertCell(0);
         c.innerHTML = top5topics[0];
         addLearnMore(c, top5topics[0]); 
+        addToQuery(c, top5topics[0]); 
+
         c = r.insertCell(1);
         c.innerHTML = top5topics[1];        
         addLearnMore(c, top5topics[1]); 
+        addToQuery(c, top5topics[1]); 
+
         c = r.insertCell(2);
         c.innerHTML = top5topics[2];
         addLearnMore(c, top5topics[2]); 
+        addToQuery(c, top5topics[2]); 
+
         c = r.insertCell(3);
         c.innerHTML = top5topics[3];
         addLearnMore(c, top5topics[3]); 
+        addToQuery(c, top5topics[3]); 
+
         c = r.insertCell(4);
         c.innerHTML = top5topics[4];
         addLearnMore(c, top5topics[4]); 
+        addToQuery(c, top5topics[4]); 
 
 
         // var node = document.createTextNode("This is new.");
@@ -191,7 +200,6 @@ var showTable = function(clicked_id) {
 }
 
 var addLearnMore = function(c, topics) {
-
     var topicSplit  = topics.split(" "); 
     if (topicSplit[1] != null) {
         c.innerHTML += "</br>" + "<a  target='_blank' href='"+"https://en.wikipedia.org/wiki/"+ topicSplit[0] + "_" + topicSplit[1] +"'>Learn More</a>";
@@ -200,6 +208,22 @@ var addLearnMore = function(c, topics) {
     }
 
 
+}
+
+var addToQuery = function(c, topics) {
+    var topicSplit  = topics.split(" ");
+    console.log(topics); 
+    c.innerHTML += "<button class='button' id='topic_cloud' type='button' onclick='addTopicToQuery(\""+topics+"\");'> Add to Query </button>";
+}
+
+function addTopicToQuery(topics) {
+    console.log(topics); 
+    numResults = startResults; 
+    console.log(numResults); 
+    searchTerm = $('#query').val() + " " + topics.toLowerCase(); 
+    document.getElementById("query").value = searchTerm; 
+    console.log(searchTerm);
+    doSearch();
 }
 
 var doSearch = function() {
