@@ -172,7 +172,7 @@ class DataHandler:
         existing_bio_urls_file = os.path.join(os.path.dirname(this_file_dir), 'data/urls')
         # "CourseProject/ExpertSearch/data/urls"
         with open(TRAIN_BIO_URLS_FILE, 'w') as fo:
-            # take the first 2000 urls as training data
+            # take the first 1000 urls as training data
             with open(existing_bio_urls_file, 'r') as fi:
                 lines = fi.readlines()
                 for i in range(BIO_URLS_SPLIT_POINT):
@@ -230,15 +230,19 @@ class DataHandler:
         if not os.path.exists(TEST_BIO_URLS_FILE):
             open(TEST_BIO_URLS_FILE, 'w').close()
 
+        # Prepare the test bio URLs file
         with open(TEST_BIO_URLS_FILE, 'w') as fo:
+            # Use the classified directory URLs to find faculty bio URLs and use as test URLs
             with open(CLASSIFIED_DIRECTORY_URLS_FILE, 'r') as fi:
                 lines = fi.readlines()
-                # for i in range(20):
                 for i, line in enumerate(lines):
-                    if i == 50:
-                        break
+                    # Use the top-50 classified directory URL for now.
+                    # Each will result in many more faculty bio URLs
+                    # if i == 50:
+                    #     break
                     test_url = line.strip()
                     scraper = Scraper(DATA_TYPE_BIO_TESTING)
+                    # Get all potential faculty bio URLs from each directory URL
                     test_sub_urls = scraper.get_links_from_url(test_url)
                     for j, test_sub_url in enumerate(test_sub_urls):
                         # range(len(test_sub_urls)):

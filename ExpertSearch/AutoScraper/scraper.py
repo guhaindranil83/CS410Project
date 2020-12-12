@@ -153,7 +153,6 @@ class Scraper:
         if not soup:
             return ""
         links = set([])
-        # for link in soup.find_all('a', attrs={'href': re.compile("^http")}):
         for link in soup.find_all('a'):
             href_url = link.get('href')
             href_text = ""
@@ -180,7 +179,6 @@ class Scraper:
                     or re.findall('people', url.lower()) or re.findall('people', anchor_text.lower())
                     or re.findall('personnel', url.lower()) or re.findall('personnel', anchor_text.lower())
                     or re.findall('profile', url.lower()) or re.findall('profile', anchor_text.lower())):
-                    # or re.findall('~', url) :
                 is_potential_candidate = True
         return is_potential_candidate
 
