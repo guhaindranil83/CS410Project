@@ -51,8 +51,10 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="color:black;margin-left:auto;" onclick='showTable(this.id)' id=${infoNum}><i class="material-icons" id=${info_id}>info</i></a>
+                 <div style="margin-left:auto">
+                 <a style="color:black;margin-left:auto;margin-right:16px" onclick='showTable(this.id)' id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="margin-left:auto;color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
+                 </div>
                  </div>
 
             <div class="header-item">
