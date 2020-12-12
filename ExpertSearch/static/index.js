@@ -31,7 +31,17 @@ var docDiv = (doc) => {
     console.log(docNum); 
 
 
-    console.log(uni_dept);
+    console.log(fac_name);
+
+    let info_id = ""; 
+    if(fac_name == "") {
+        console.log(true); 
+        info_id = "no_name_email_info"
+    } else {
+        info_id = "no_email_info"
+    }
+    
+
 
     if (email =='None') {
         return (
@@ -41,7 +51,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="color:black;margin-left:auto;" onclick='showTable(this.id)' id=${infoNum}><i class="material-icons">info</i></a>
+                 <a style="color:black;margin-left:auto;" onclick='showTable(this.id)' id=${infoNum}><i class="material-icons" id=${info_id}>info</i></a>
                  <a style="margin-left:auto;color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
 
@@ -74,7 +84,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=Dear Professor ${fac_name.split(" ")[1]}, \r\n It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum]}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
+                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=Dear Professor ${fac_name.split(" ")[1]}, %0D%0A %0D%0A It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum].charAt(0).toUpperCase() + topics[randomNum].slice(1)}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
                  <a style="auto;color:black;margin-right:20px;" onclick="showTable(this.id)" id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>

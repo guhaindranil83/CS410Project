@@ -223,3 +223,11 @@ td, th {
 .button:hover {
   background-color: #f1f1f1;
 }
+
+#no_email_info {
+  margin-left: 38vw; 
+}
+
+#no_name_email_info {
+  margin-left: 44vw; 
+}
