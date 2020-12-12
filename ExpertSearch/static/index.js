@@ -84,7 +84,7 @@ var docDiv = (doc) => {
 
         
                  <b style="font-size:14pt">${fac_name}</b>
-                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=Dear Professor ${fac_name.split(" ")[1]}, %0D%0A %0D%0A It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum].charAt(0).toUpperCase() + topics[randomNum].slice(1)}. I hope to hear from you soon'"><i class="material-icons">email</i></a>
+                 <a style="margin-left:auto;color:black;margin-right:20px;" href='mailto:${email}?subject=Request to Connect for conversation about Research&body=Dear Professor ${fac_name.split(" ")[1]}, %0D%0A %0D%0A It’s a pleasure to have gone through some of your research articles. I’d like to connect with you for discussing some ideas in the Research Area of ${topics[randomNum].charAt(0).toUpperCase() + topics[randomNum].slice(1)}. I hope to hear from you soon.'"><i class="material-icons">email</i></a>
                  <a style="auto;color:black;margin-right:20px;" onclick="showTable(this.id)" id=${infoNum}><i class="material-icons">info</i></a>
                  <a style="color:black;" href=${fac_url} target="_blank"><i class="material-icons">launch</i></a>
                  </div>
