@@ -6,6 +6,9 @@ import re
 from urlparse import urlsplit
 
 
+LAST_KNOWN_BIO_INDEX = 6525
+
+
 class Scraper:
     data_type_url_mappings = {
         DATA_TYPE_TRAINING: {
@@ -182,13 +185,6 @@ class Scraper:
                 is_potential_candidate = True
         return is_potential_candidate
 
-    # def filter_potential_candidate_urls(self, urls):
-    #     potential_candidates = set([])
-    #     for url in urls:
-    #         if self.is_potential_faculty_url(url):
-    #             potential_candidates.add(url)
-    #     return potential_candidates
-
     def get_base_url(self, url):
         base_url = ''
         parts = urlsplit(url)
@@ -206,7 +202,7 @@ class Scraper:
 
     def scrape_faculty_pages_for_bio(self):
         print "Scraping faculty pages for bio ..."
-        LAST_KNOWN_BIO_INDEX = 6525
+
         this_file_dir = os.path.dirname(os.path.abspath(__file__))
         with open(CLASSIFIED_FACULTY_URLS_FILE, 'r') as f:
             lines = f.readlines()
@@ -217,8 +213,6 @@ class Scraper:
                 new_bio_file_name = str(LAST_KNOWN_BIO_INDEX + i) + '.txt'
                 new_bio_file = os.path.join(os.path.dirname(this_file_dir), 'data/compiled_bios', new_bio_file_name)
                 open(new_bio_file, 'w').close()
-                # TODO: Check for duplicate faculty name already existing
-                # if i < 3:
                 with open(new_bio_file, 'w') as f:
                     f.write(bio.strip())
                     f.write('\n')
@@ -235,3 +229,18 @@ class Scraper:
         bio = bio.encode('ascii', errors='ignore').decode('utf-8')
         bio = re.sub('\s+', ' ', bio)
         return bio
+
+    def add_classified_fac_url_to_urls(self):
+        print "Appending classified faculty urls to the data/urls file ..."
+
+        this_file_dir = os.path.dirname(os.path.abspath(__file__))
+        urls_file_path = os.path.join(os.path.dirname(this_file_dir), 'data', 'urls')
+        with open(urls_file_path, 'a') as fo:
+            with open(CLASSIFIED_FACULTY_URLS_FILE, 'r') as f:
+                lines = f.readlines()
+                for i, line in enumerate(lines):
+                    faculty_url = line.strip()
+                    fo.write(faculty_url)
+                    fo.write('\n')
+
+        print "Appending classified faculty urls to the data/urls file done."

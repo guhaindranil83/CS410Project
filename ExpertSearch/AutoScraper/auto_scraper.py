@@ -63,6 +63,9 @@ def main():
     scraper = Scraper(DATA_TYPE_BIO_TESTING)
     scraper.scrape_faculty_pages_for_bio()
 
+    # Also, append the new faculty urls to the data/urls file
+    scraper.add_classified_fac_url_to_urls()
+
 
 if __name__ == '__main__':
     # Run it as:
