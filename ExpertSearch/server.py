@@ -28,6 +28,7 @@ from itertools import chain
 
 
 app = Flask(__name__) 
+print(os.getcwd())
 environ = 'development'
 dataconfig = json.loads(open("config.json", "r").read())
 app.dataenv = dataconfig[environ]
@@ -42,6 +43,7 @@ loc_list = json.loads(open(dataconfig[environ]["locspath"],'r').read())["locs"]
 
 @app.route('/')
 def home():
+    print("home rendered")
     return render_template('index.html',uni_list= uni_list,loc_list=loc_list)
 
 @app.route('/admin')
@@ -76,6 +78,7 @@ def filtered_results(results,num_results,min_score,selected_uni_filters,selected
 
 @app.route('/search', methods=['POST'])
 def search():
+
     data = json.loads(request.data)
     querytext = data['query']
     num_results = data['num_results']
@@ -91,10 +94,7 @@ def search():
     sys.path.append(app.rootpath + "/expertsearch")
 
     from ranker import load_ranker
-    from miner import get_top_words_from_query_topic, get_topics_from_many_documents, get_topic_from_single_document
-
-    #top_terms = get_top_words_from_query_topic(querytext)
-    #print([term for term in top_terms])
+    from miner import get_topics_from_many_documents
 
     ranker = load_ranker(app.searchconfig)
 
@@ -104,19 +104,11 @@ def search():
     results,universities,states,countries = filtered_results(results,num_results,min_score,selected_uni_filters,selected_loc_filters)
 
     doc_names = [index.metadata(res[0]).get('doc_name') for res in results]
-
+  
     # Example of get_topics_from_many_documents
     topics = get_topics_from_many_documents(doc_names)
-    print('Multiple docs topics:')
-    #for topic in topics:
-    #    print(topic)
 
-    # Example of get_topics_from_single_document
-    single_topics = get_topic_from_single_document(doc_names[0])
-    print('Single doc topics: ')
-    #print(single_topics)
-
-
+    print(topics)
 
 
 
@@ -140,6 +132,7 @@ def search():
 
 @app.route("/admin/ranker/get")
 def get_ranker():
+    print("ranger got")
     ranker_path = app.rootpath + "/expertsearch/ranker.py"
     ranker_contents = open(ranker_path, 'r').read()
 
