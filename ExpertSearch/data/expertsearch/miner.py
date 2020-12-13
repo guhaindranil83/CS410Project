@@ -1,7 +1,7 @@
 import os
 import re
 import lxml
-import cchardet
+# import cchardet
 import numpy as np
 from collections import OrderedDict
 import gensim
