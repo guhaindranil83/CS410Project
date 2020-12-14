@@ -1,3 +1,17 @@
+# Improved ExpertSearch
+
+# Project Source Code
+
+The project's source code is available under the ExpertSearch folder.
+
+# Project Documentation
+
+The project's detailed report is available as:
+"Project Report - Improved ExpertSearch.pdf"
+
+The project's tutorial presentation video is available as:
+"Video Presentation - Improved ExpertSearch.mp4"
+
 # Improved ExpertSearch Proposal
 
 1. What are the names and NetIDs of all your team members? Who is the captain? The captain will have more administrative duties than team members.
