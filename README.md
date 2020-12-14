@@ -10,7 +10,7 @@ The project's detailed report is available as:
 "Project Report - Improved ExpertSearch.pdf"
 
 The project's tutorial presentation video is available as:
-[Presentation]("Video Presentation - Improved ExpertSearch.mp4")
+"Video Presentation - Improved ExpertSearch.mp4"
 
 # PLEASE READ "Project Report - Improved ExpertSearch.pdf" FOR THE REPORT
 # PLEASE VIEW "Video Presentation - Improved ExpertSearch.mp4" FOR THE PRESENTATION AND DEMO
