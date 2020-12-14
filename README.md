@@ -14,8 +14,6 @@ The project's tutorial presentation video is available as:
 
 # PLEASE READ "Project Report - Improved ExpertSearch.pdf"
 
-# PROJECT REPORT
-
 # Improved ExpertSearch System
 
 (Team ZMS)
