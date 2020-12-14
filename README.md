@@ -7,7 +7,7 @@ The project's source code is available under the ExpertSearch folder.
 # Project Documentation
 
 The project's detailed report is available as:
-"Project Report - Improved ExpertSearch.pdf"
+["Project Report - Improved ExpertSearch.pdf"](https://github.com/sairanga123/CourseProject/blob/main/Project%20Report%20-%20Improved%20ExpertSearch.pdf)
 
 The project's tutorial presentation video is available as:
 ["Video Presentation - Improved ExpertSearch.mp4"](https://github.com/sairanga123/CourseProject/blob/main/Video%20Presentation%20-%20Improved%20ExpertSearch.mp4)
