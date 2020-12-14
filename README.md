@@ -208,11 +208,7 @@ The Automated Scraper module automates the whole flow of generating the faculty 
 - Uses the scraper to scrape the faculty bios from the classified bio URLs
 - Generates one document per faculty bio (e.g. **6530.txt** ) and saves under **ExpertSearch/data/compiled\_bios**
 
-The auto\_scraper.py module is the entry point for the complete automatic scraping and bio generation task. The following figure **(Fig. 1)** shows the complete automation flow starting with the input websites till the bio generation completion.
-
-![](RackMultipart20201214-4-ybwwhv_html_7b903fe88d5fac45.gif)
-
-**Fig. 1:** Automation Control Flow / Module interactions
+The auto\_scraper.py module is the entry point for the complete automatic scraping and bio generation task.
 
 ### **Directory URL Classification**
 
@@ -222,11 +218,7 @@ First, let&#39;s explain the Directory URL Classification task with the help of 
 
 #### **Data Handler (data\_handler.py)**
 
-The Data Handler module first takes the University websites and Alexa websites as input, mixes them and partitions them into test and train URLs. Then uses the scraper module to extract the URL contents into test and train corpus as shown in the figure below **(Fig. 2)**.
-
-![](RackMultipart20201214-4-ybwwhv_html_f40466759c7b4edf.gif)
-
-**Fig. 2:** Dataset Preparation for Directory URL Classification
+The Data Handler module first takes the University websites and Alexa websites as input, mixes them and partitions them into test and train URLs. Then uses the scraper module to extract the URL contents into test and train corpus.
 
 Here&#39;s a detailed explanation of the approach used by the Data Handler module to prepare the URLs for the scraper.
 
@@ -274,17 +266,11 @@ The classification module does the following:
 
 ### **Faculty URL classification**
 
-###
-
 Next, let&#39;s look at the Faculty URL Classification task.
 
 #### **Data Handler (data\_handler.py)**
 
-The Data Handler module now takes the existing project&#39;s known Faculty Bio URLs and mixes with some Alexa URLs to prepare the train dataset. Uses the classified Faculty Directory URLs from the above step to extract potential Faculty Bio URLs to prepare the test dataset. Then uses the scraper module to extract the URL contents into bio test and bio train corpus as shown in the figure below **(Fig. 3)**.
-
-![](RackMultipart20201214-4-ybwwhv_html_ef4ff66ebf413fe6.gif)
-
-**Fig. 3:** Dataset Preparation for Faculty Bio URL Classification
+The Data Handler module now takes the existing project&#39;s known Faculty Bio URLs and mixes with some Alexa URLs to prepare the train dataset. Uses the classified Faculty Directory URLs from the above step to extract potential Faculty Bio URLs to prepare the test dataset. Then uses the scraper module to extract the URL contents into bio test and bio train corpus.
 
 The following approach was used to prepare the dataset:
 
@@ -363,7 +349,7 @@ The topic miner pulls a topic distribution from a document already mined if the 
 
 #### **Model creation**
 
-Model creation required a good deal of manual work to ensure that the term clusters were understandable. The process consisted of a lot of trial and error, using the steps below **(Fig. 4)**:
+Model creation required a good deal of manual work to ensure that the term clusters were understandable. The process consisted of a lot of trial and error, using the steps below:
 
   - Create a general model with **gensim.models.ldamodel.LdaModel** class with 10 models
   - Visually inspect term clusters to ensure they were meaningful
@@ -375,17 +361,12 @@ Model creation required a good deal of manual work to ensure that the term clust
   1. Varied number of topics to create new model
   2. Assessed coherence of each model with varying number of topics
   3. Manually inspected output of models with high coherence, looking for term clusters that made intuitive sense and that appeared distinct given knowledge of the separate domains
-  4. ![](RackMultipart20201214-4-ybwwhv_html_fd40a8d96b0cff80.png)Chose the best model according to above criteria and saved it and the created dictionary for query inference
+  4. Chose the best model according to above criteria and saved it and the created dictionary for query inference
 
-**Fig. 4:** Workflow for building an optimal topic model.
 
 #### **Term extraction**
 
-With a model and a dictionary, I wrote a method that can infer the topic of a given query and fetch the top-10 terms associated with that topic, a method that can infer the topic of a single document and fetch the top-10 terms associated with that document&#39;s topic, and a method that can infer the topics of multiple documents and fetch the top-10 terms associated with each document&#39;s topic. These terms will eventually be pushed to the user to help them potentially refine their query as shown below **(Fig. 5)**.
-
-![](RackMultipart20201214-4-ybwwhv_html_2c86d065a8eb24f9.png)
-
-**Fig. 5:** Extracting topics from documents not included in training set.
+With a model and a dictionary, I wrote a method that can infer the topic of a given query and fetch the top-10 terms associated with that topic, a method that can infer the topic of a single document and fetch the top-10 terms associated with that document&#39;s topic, and a method that can infer the topics of multiple documents and fetch the top-10 terms associated with each document&#39;s topic. These terms will eventually be pushed to the user to help them potentially refine their query.
 
 ## **Improved Email Extraction**
 
