@@ -357,11 +357,11 @@ Run the AutoScraper to generate the bio documents. This step has been already pe
 
 To run the automated scraper, first go the ExpertSearch/AutoScraper directory.
 
-![](RackMultipart20201214-4-ybwwhv_html_1ad0d364bddc0951.png)
+<b>$ cd ExpertSearch/AutoScraper</b>
 
 Then the Automated Scraper can be invoked as follows:
 
-![](RackMultipart20201214-4-ybwwhv_html_26877c84163faee6.png)
+<b>$ python ./auto_scraper.py -d -t</b>
 
 **-d** option specifies to generate/regenerate the train and test dataset.
 
